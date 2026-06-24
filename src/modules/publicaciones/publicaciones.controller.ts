@@ -4,7 +4,7 @@ import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { UpdatePublicacionDto } from './dto/update-publicacion.dto';
 import { SearchPublicacionDto } from './dto/search-publicacion.dto';
-import { Types } from 'mongoose'; // <-- 1. IMPORTA LOS TIPOS DE MONGOOSE AQUÍ
+import { Types } from 'mongoose';
 
 @ApiTags('Publicaciones')
 @Controller('publicaciones')
@@ -64,7 +64,7 @@ export class PublicacionesController {
         @Param('id') id: string,
         @Body() dto: UpdatePublicacionDto
     ) {
-        // <-- 2. REEMPLAZA ESTE MÉTODO CON ESTA LÓGICA DE CONVERSIÓN:
+        
         const updateData = {
             ...dto,
             ...(dto.usuario_id ? { usuario_id: new Types.ObjectId(dto.usuario_id as any) } : {})
