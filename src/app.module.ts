@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RolesModule } from './roles/roles.module';
-import {UsuariosModule } from './modules/usuarios/usuarios.module'
+import { RolesModule } from './modules/roles/roles.module';
+import { UsuariosModule } from './modules/usuarios/usuarios.module'
+import { PublicacionesModule } from './modules/publicaciones/publicaciones.module';
 
 
 
@@ -15,6 +16,7 @@ import {UsuariosModule } from './modules/usuarios/usuarios.module'
     }),
     RolesModule,
     UsuariosModule,
+    PublicacionesModule,     
     MongooseModule.forRoot(process.env.MONGO_URI as string),
   ],
   controllers: [AppController],
