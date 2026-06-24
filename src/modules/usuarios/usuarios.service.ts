@@ -52,8 +52,8 @@ export class UsuariosService {
         const page = Number(search.page) || 1;
         const limit = Number(search.limit) || 10;
         
-        // consulta
-        const data = await this.userModel.find(filter).populate('rol').skip((page - 1) * limit).limit(limit);
+        // CORREGIDO: Se usa 'role' para que coincida con tu Schema
+        const data = await this.userModel.find(filter).populate('role').skip((page - 1) * limit).limit(limit);
         
         // Contador de documentos = contador de usuarios 
         const total = await this.userModel.countDocuments(filter);
@@ -65,7 +65,8 @@ export class UsuariosService {
      * consulta por id usuario
      */
     async findOne(id: string) {
-        const user = await this.userModel.findById(id).populate('rol_');
+
+        const user = await this.userModel.findById(id).populate('role');
         if (!user) {
             throw new BadRequestException('Usuario no encontrado');
         }
@@ -81,10 +82,14 @@ export class UsuariosService {
         if (!user) {
             throw new NotFoundException('No se encontro el Usuario');
         }
-        
-        const updateuser = await this.userModel.findByIdAndUpdate(id, dto, { new: true });
 
-        return ResponseHelper.success(updateuser);
+        if (dto.password) {
+            dto.password = await bcrypt.hash(dto.password, 10);
+        }
+
+        const updatedUser = await this.userModel.findByIdAndUpdate(id, dto, { new: true });
+
+        return ResponseHelper.success(updatedUser);
     }
 
     /**
@@ -97,10 +102,7 @@ export class UsuariosService {
             throw new NotFoundException('Usuario no Encontrado');
         }
 
-        if(dot.passaword){
-          dot.password= await bcrypt.hash(dot.password,10)
-        }
-        const deletedUser = await this.userModel.findByIdAndUpdate(id, { activo: false },{new:true});
+        const deletedUser = await this.userModel.findByIdAndUpdate(id, { activo: false });
 
         return ResponseHelper.success(deletedUser);
     }

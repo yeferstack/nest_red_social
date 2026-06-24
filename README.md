@@ -1,98 +1,230 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API Red Social
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST construida con NestJS, TypeScript y MongoDB para gestionar una red social básica con usuarios, publicaciones, comentarios, reacciones y seguidores.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Tecnologías usadas
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **NestJS** — framework principal
+- **TypeScript** — lenguaje de programación
+- **MongoDB + Mongoose** — base de datos
+- **Swagger** — documentación automática de endpoints
+- **class-validator** — validación de datos en los DTOs
+- **bcrypt** — cifrado de contraseñas
 
-## Project setup
+---
+
+## Instalación
 
 ```bash
-$ npm install
+# Clonar el repositorio
+git clone <url-del-repo>
+
+# Entrar a la carpeta
+cd api_red_social
+
+# Instalar dependencias
+npm install
+
+# Crear el archivo de variables de entorno
+cp .env.example .env
 ```
 
-## Compile and run the project
+Dentro del `.env` configura:
+
+```env
+MONGO_URI=mongodb://localhost:27017/red_social_db
+PORT=3000
+```
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Correr en modo desarrollo
+npm run start:dev
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## Documentación Swagger
 
-# e2e tests
-$ npm run test:e2e
+Una vez corriendo, abre en el navegador:
 
-# test coverage
-$ npm run test:cov
+```
+http://localhost:3000/swagger
 ```
 
-## Deployment
+Ahí puedes ver y probar todos los endpoints directamente.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Estructura del proyecto
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+src/
+├── common/
+│   ├── filters/        → manejo global de errores
+│   └── helpers/        → respuestas estándar de la API
+├── config/
+│   ├── database/
+│   └── swagger/
+└── modules/
+    ├── roles/
+    ├── usuarios/
+    ├── publicaciones/
+    ├── comentarios/
+    ├── reacciones/
+    └── seguidores/
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Cada módulo tiene la misma estructura interna:
 
-## Resources
+```
+modulo/
+├── dto/
+│   ├── create-x.dto.ts
+│   ├── update-x.dto.ts
+│   └── search-x.dto.ts
+├── schemas/
+│   └── x.schema.ts
+├── x.controller.ts
+├── x.module.ts
+└── x.service.ts
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Módulos
 
-## Support
+### Roles
+Gestiona los roles que se pueden asignar a los usuarios (ej: Administrador, Usuario).
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /roles | Crear rol |
+| GET | /roles | Listar roles activos |
+| GET | /roles/inactivos | Listar roles eliminados |
+| GET | /roles/:id | Buscar rol por ID |
+| PUT | /roles/:id | Actualizar rol |
+| PATCH | /roles/:id | Actualización parcial |
+| DELETE | /roles/:id | Eliminar rol (soft delete) |
+| PATCH | /roles/:id/restore | Restaurar rol eliminado |
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Usuarios
+Gestiona los usuarios de la red social. Las contraseñas se guardan cifradas con bcrypt.
 
-## License
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /Usuarios | Crear usuario |
+| GET | /Usuarios | Listar usuarios (con búsqueda y paginación) |
+| GET | /Usuarios/:id | Buscar usuario por ID |
+| PUT | /Usuarios/:id | Actualizar usuario |
+| DELETE | /Usuarios/:id | Eliminar usuario (soft delete) |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Parámetros de búsqueda (query):** `nombre`, `page`, `limit`
+
+---
+
+### Publicaciones
+Gestiona las publicaciones que crean los usuarios.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /publicaciones | Crear publicación |
+| GET | /publicaciones | Listar publicaciones (con búsqueda y paginación) |
+| GET | /publicaciones/inactivas | Listar publicaciones eliminadas |
+| GET | /publicaciones/:id | Buscar publicación por ID |
+| PUT | /publicaciones/:id | Actualizar publicación |
+| PATCH | /publicaciones/:id | Actualización parcial |
+| DELETE | /publicaciones/:id | Eliminar publicación (soft delete) |
+| PATCH | /publicaciones/:id/restore | Restaurar publicación eliminada |
+
+**Parámetros de búsqueda (query):** `usuario_id`, `contenido`, `page`, `limit`
+
+---
+
+### Comentarios
+Gestiona los comentarios que los usuarios hacen sobre las publicaciones.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /comentarios | Crear comentario |
+| GET | /comentarios | Listar comentarios (con búsqueda y paginación) |
+| GET | /comentarios/inactivos | Listar comentarios eliminados |
+| GET | /comentarios/publicacion/:id | Comentarios de una publicación |
+| GET | /comentarios/:id | Buscar comentario por ID |
+| PUT | /comentarios/:id | Actualizar comentario |
+| PATCH | /comentarios/:id | Actualización parcial |
+| DELETE | /comentarios/:id | Eliminar comentario (soft delete) |
+| PATCH | /comentarios/:id/restore | Restaurar comentario eliminado |
+
+**Parámetros de búsqueda (query):** `usuario_id`, `publicacion_id`, `contenido`, `page`, `limit`
+
+---
+
+### Reacciones
+Gestiona las reacciones que los usuarios pueden poner en las publicaciones.
+
+**Tipos disponibles:** `like`, `love`, `haha`, `sad`, `angry`
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /reacciones | Crear reacción |
+| GET | /reacciones | Listar reacciones (con búsqueda y paginación) |
+| GET | /reacciones/inactivos | Listar reacciones eliminadas |
+| GET | /reacciones/:id | Buscar reacción por ID |
+| PUT | /reacciones/:id | Actualizar reacción |
+| PATCH | /reacciones/:id | Actualización parcial |
+| DELETE | /reacciones/:id | Eliminar reacción (soft delete) |
+| PATCH | /reacciones/:id/restore | Restaurar reacción eliminada |
+
+**Parámetros de búsqueda (query):** `usuario_id`, `publicacion_id`, `tipo`, `page`, `limit`
+
+---
+
+### Seguidores
+Gestiona las relaciones de seguimiento entre usuarios.
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | /seguidores | Seguir a un usuario |
+| GET | /seguidores | Listar seguidores (con búsqueda y paginación) |
+| GET | /seguidores/inactivos | Listar seguidores eliminados |
+| GET | /seguidores/:id | Buscar seguidor por ID |
+| PUT | /seguidores/:id | Actualizar |
+| PATCH | /seguidores/:id | Actualización parcial |
+| DELETE | /seguidores/:id | Dejar de seguir (soft delete) |
+| PATCH | /seguidores/:id/restore | Restaurar |
+
+**Parámetros de búsqueda (query):** `seguidor_id`, `seguido_id`, `page`, `limit`
+
+---
+
+## Formato de respuestas
+
+Todas las respuestas siguen el mismo formato estándar:
+
+**Éxito:**
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": { }
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "statusCode": 400,
+  "message": "Descripción del error"
+}
+```
+
+---
+
+## Eliminación lógica (Soft Delete)
+
+Ningún registro se borra físicamente de la base de datos. En su lugar, se marca con `activo: false`. Todos los listados generales solo muestran registros con `activo: true`. Para ver los eliminados existe el endpoint `/inactivos` en cada módulo, y para recuperarlos el endpoint `/restore`.
