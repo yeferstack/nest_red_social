@@ -8,6 +8,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { PublicacionesModule } from './modules/publicaciones/publicaciones.module';
 import { ComentariosModule } from './modules/comentarios/comentarios.module';
 import { ReaccionesModule } from './modules/reacciones/reacciones.module';
+import { SeguidoresModule } from './modules/seguidores/seguidores.module';
 
 
 
@@ -21,6 +22,7 @@ import { ReaccionesModule } from './modules/reacciones/reacciones.module';
     PublicacionesModule,
     ComentariosModule,
     ReaccionesModule,
+    SeguidoresModule,
     MongooseModule.forRoot(process.env.MONGO_URI as string),
   ],
   controllers: [AppController],
